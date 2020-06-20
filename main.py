@@ -36,10 +36,11 @@ get_a = lambda f, m: f / m  # 计算加速度
 get_v = lambda v, a, t: v + a * t  # 计算速度
 get_s = lambda v, a, t: v * t + 0.5 * a * t ** 2  # 计算位移
 
-to_ypos = lambda y: int((y / 100) * 470 + 30) # 100是虚拟环境的高度，470是画布高度, 10是向下偏移
+to_ypos = lambda y: int((y / 100) * 470 + 30)  # 100是虚拟环境的高度，470是画布高度, 10是向下偏移
 
 time = 0.001
 now_draw = 0
+
 
 def sin():  # get sin
     a = 0
@@ -80,22 +81,21 @@ def draw_(screen, display, h, v, a, n, mg, f, time):  # 绘制受力分析图
         max_h = gh
     point_list = []
     for i in sin():
-        x = int(i[0] / 2 * mw / 2 + (640 / 2 - 10) + mw / 8) # 换算,  + mw / 8是让弹簧居中
+        x = int(i[0] / 2 * mw / 2 + (640 / 2 - 10) + mw / 8)  # 换算,  + mw / 8是让弹簧居中
         y = int(i[1] / 100 * (400 - to_ypos(max_h) - mh) + to_ypos(max_h) + mh)  # 换算
-        point_list.append((x,y))
+        point_list.append((x, y))
 
     pygame.draw.lines(screen, (min(max_h / 60 * 255, 255), 0, 0), False, point_list, 2)  # 绘制最高线h
 
     x = 60
     base_y = 270
-    pygame.draw.circle(screen, (0,0,255), (x, base_y), 5)
+    pygame.draw.circle(screen, (0, 0, 255), (x, base_y), 5)
 
     y = int(base_y + (mg / 20 * 150))
     pygame.draw.line(screen, (0, 0, 0), (x, base_y), (x, y), 3)  # 绘制mg
-    pygame.draw.lines(screen, (0, 0, 0), False, [(x-5,y-5), (x,y), (x+5,y-5)], 3)
+    pygame.draw.lines(screen, (0, 0, 0), False, [(x - 5, y - 5), (x, y), (x + 5, y - 5)], 3)
 
     draw_font(x, y + 12, f'mg = {mg:4.2f}N', screen)
-
 
     if n < 0:
         y = int(base_y + (n / 20 * 150))
@@ -160,7 +160,6 @@ if __name__ == "__main__":
             dh = get_s(v, the_a, time)  # 计算位移增量
             new_v = get_v(v, the_a, time)
 
-            # print(f"h = {h}, dh = {dh}, h + dh = {h + dh}, a = {the_a}, v = {v}, n = {the_n}, time = {times}s, count = {i}")
             if now_draw == 30:
                 draw_(screen, display, h, v, the_a, the_n, the_g, the_f, times)
                 now_draw = 0
@@ -177,11 +176,12 @@ if __name__ == "__main__":
             h += dh
 
         plt.figure()
-        size = (3,2)
+        size = (3, 2)
         dh_t = plt.subplot2grid(size, (0, 0), colspan=1, rowspan=1)
         s_t = plt.subplot2grid(size, (0, 1), colspan=1, rowspan=1)
         v_t = plt.subplot2grid(size, (1, 0), colspan=2, rowspan=1)
         a_t = plt.subplot2grid(size, (2, 0), colspan=2, rowspan=1)
+
 
         def set_plot(plot, title, ylabel, xlabel, line, y_list, x_list):
             plot.set_title(title)
